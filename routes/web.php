@@ -22,6 +22,7 @@ $router->get('/', function () use ($router) {
 // Ad esempio: se Jack farà richiesta per http://localhost:8000/greetings/andrea
 // name varrà andrea.
 $router->get('/events','EventsController@index');
+$router->get('/events/{id}','EventsController@show');
 
 // I metodi HTTP disponibili sono diversi
 // noi utilizzeremo solo questi quattro

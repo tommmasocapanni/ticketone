@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Http\Resources\EventResource;
+use App\Http\Resources\EventCollection;
 
 class EventsController extends Controller {
     public function __construct() {
@@ -27,6 +28,19 @@ class EventsController extends Controller {
         $events = Event::all(); // SELECT * FROM events; (https://laravel.com/docs/9.x/eloquent#collections)
 
         // Utilizzo una risorsa per ritornare il risultato all'utente (https://laravel.com/docs/9.x/eloquent-resources)
-        return EventResource::collection($events);
+        return new EventCollection($events);
+    }
+
+    public function show($id){
+        // Recupero il singolo evento utilizzando l'dentificativo (ID)
+        $event = Event::find($id);
+
+        if ($event){    // È true solo se l'oggetto non è null
+            //Ritorno l'evento interessato all'utente, esistente;
+            return new EventResource($event);
+            
+        } else { //Vuol dire che l'oggetto non è stato trovato
+            return $this->failure('The searched event does not exist', 1, 404);
+        }
     }
 }

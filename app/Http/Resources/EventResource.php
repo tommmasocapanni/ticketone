@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 
-class EventResource extends JsonResource{
+class EventResource extends BaseResource{
     public function toArray($request){
         return[
             'id' => $this->id,
