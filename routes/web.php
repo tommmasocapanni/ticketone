@@ -24,6 +24,12 @@ $router->get('/', function () use ($router) {
 $router->get('/events','EventsController@index');
 $router->get('/events/{id}','EventsController@show');
 
+//creazione di un evento
+$router->post('/events','EventsController@create');
+
+//modificare evento
+$router->put('/events/{id}','EventsController@update');
+
 // I metodi HTTP disponibili sono diversi
 // noi utilizzeremo solo questi quattro
 

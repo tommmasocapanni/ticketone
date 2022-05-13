@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Event;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\EventCollection;
+use Illuminate\Http\Request;
 
 class EventsController extends Controller {
     public function __construct() {
@@ -43,4 +45,82 @@ class EventsController extends Controller {
             return $this->failure('The searched event does not exist', 1, 404);
         }
     }
+
+    // Tutte le chiamate POST E PUT
+    // utilizzano la request per recuperare i dati
+    // presenti nel body della richiesta.
+
+    public function create(Request $request){
+        // var_dump($request->all());die;
+
+        //Il validate controlla che i required ci siano 
+        // sennò l'evento non viene creato.
+        //Gestisce gli errori dell'utente.
+
+
+        $this->validate($request, [
+            'name' => 'required|string|min:3',
+            'description' => 'required|string',
+            'date' => 'required|date',
+            'cover_url' => 'required|url',
+            'price' => 'required|numeric',
+            'address' => 'required|string',
+            'lat' => 'required|numeric',
+            'lng' => 'required|numeric',
+            'views_count' => 'required|integer',
+            'comments_count' => 'required|integer',
+            'likes_count'=> 'required|integer'
+        ]);
+
+        $event = new Event ($request->all());
+        //La richiesta di salvataggio viene fatta dal DB tramite Eloquent utilizzando ... .
+        $event->save(); 
+
+        //Questi sono due modi per fare la stesssa cosa.
+        //Ovvero creare un evento passandoi parametri
+        // presenti nel body della richiesta
+        
+        // $event -> name = $request->name;
+        // $event -> date = $request->date;
+        // $event -> cover_url = $request->cover_url;
+        // $event -> price = $request->price;
+        // $event -> lat = $request->lat;
+        // $event -> lon = $request->lon;
+        // $event -> views_count = $request->views_count;
+        // $event -> comments_count = $request->comments_count;
+        // $event -> likes_count = $request->likes_count;
+        // $event -> created_at = $request->created_at;
+        // $event -> updated_at = $request->updated_at;
+        
+    
+        return new EventResource($event);
+    }
+
+
+    public function update(Request $request, $id){
+
+        $this->validate($request, [
+            'name' => 'string|min:3',
+            'description' => 'string',
+            'date' => 'date',
+            'cover_url' => 'url',
+            'price' => 'numeric',
+            'address' => 'string',
+            'lat' => 'numeric',
+            'lng' => 'numeric',
+            'views_count' => 'integer',
+            'comments_count' => 'integer',
+            'likes_count'=> 'integer'
+        ]);
+        
+        $event = Event::find($id);
+        if (!$event){  
+            return $this->failure('The searched event does not exist', 1, 404);
+            
+        } 
+        $event->update($request->all()); 
+
+        return new EventResource($event);
+    }
+
 }
