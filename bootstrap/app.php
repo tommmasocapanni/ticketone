@@ -77,9 +77,14 @@ $app->configure('app');
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+//Questo route middleware serve per ragruppare determinate 
+// rotte sotto la stessa logica.
+//È come un cancello, quando la richiesta arriva viene controllato se 
+// possiedi il authToken, e che esista un utente con quel token.
+// Il controllo viene effettuato utilizzando l'auth service provider.  
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -93,7 +98,15 @@ $app->configure('app');
 */
 
 // $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+
+//Questo provider viene utilizzato dall'auth middleware
+//per controllare se il token passato corrisponde
+// al token di un utente registrato.
+//Ritorna null se non viene trovato nessun utente
+//altrimenti riorna l'utente trovato.
+$app->register(App\Providers\AuthServiceProvider::class);
+
+
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*

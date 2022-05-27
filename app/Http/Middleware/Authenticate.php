@@ -36,6 +36,13 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
+            $response = [
+                'error' =>[
+                    'code'=> 3, 
+                    'description'=>'We are not authorized to access!'
+                ]
+            ];
+            
             return response('Unauthorized.', 401);
         }
 
