@@ -30,6 +30,10 @@ $router->post('/events','EventsController@create');
 //modificare evento
 $router->put('/events/{id}','EventsController@update');
 
+// eliminare evento
+$router->delete('/events/{id}','EventsController@delete');
+
+
 // I metodi HTTP disponibili sono diversi
 // noi utilizzeremo solo questi quattro
 
@@ -38,4 +42,14 @@ $router->put('/events/{id}','EventsController@update');
 // PUT -> per modificare una risorsa
 // DELETE -> per eliminare una risorsa
 
+
+// ROTTE USERS
+$router->get('/users','UsersController@index');
+$router->get('/users/{id}','UsersController@show');
+
+//creazione di un utente
+$router->post('/users','UsersController@create');
+
+//creazione di un utente
+$router->post('/login','UsersController@create');
 

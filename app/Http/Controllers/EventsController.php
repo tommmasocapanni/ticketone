@@ -96,7 +96,7 @@ class EventsController extends Controller {
         return new EventResource($event);
     }
 
-
+//UPDATE
     public function update(Request $request, $id){
 
         $this->validate($request, [
@@ -121,6 +121,17 @@ class EventsController extends Controller {
         $event->update($request->all()); 
 
         return new EventResource($event);
+    }
+
+    //DELETE
+
+    public function delete($id) {
+        $event = Event::find($id);
+        if(!$event) {
+            return $this->failure(message: "The event does not exist", internalCode: 1, statusCode: 404);
+        }
+        $event->delete();
+        return new EventCollection(Event::all());
     }
 
 }
